@@ -27,7 +27,7 @@
              transports: ["websocket"]
          }); */
 
-        const socket = io("http://54.197.9.79:3000/", {
+        const socket = io("https://soketio-diagramador-production.up.railway.app/", {
             transports: ["websocket"]
         });
 
