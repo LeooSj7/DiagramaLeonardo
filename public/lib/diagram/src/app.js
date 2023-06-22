@@ -3,8 +3,11 @@ import { Table, Link } from "./shapes";
 import { anchorNamespace } from "./anchors";
 import { routerNamespace } from "./routers";
 import { TableHighlighter, LinkHighlighter } from "./highlighters";
+const JSZip = require('jszip');
 
 export const init = () => {
+    // Crear una nueva instancia de JSZip
+    const zip = new JSZip();
     const appEl = document.getElementById("app");
     const canvasEl = document.querySelector(".canvas");
     /*  const btn = document.querySelector('#btn'); */
@@ -203,15 +206,8 @@ export const init = () => {
         update.click();
     });
 
-    /* paper.on('change', (elementView) => {
-        console.log('Hubo un cambio en el diagrama');
-        txt_original.value = JSON.stringify(graph.toJSON());
-        btnSocket.click();
-        update.click();
-    });
- */
     graph.on("change:attrs", function (cell) {
-        console.log("se cambio los atributos");
+        //console.log("se cambio los atributos");
         txt_original.value = JSON.stringify(graph.toJSON());
         btnSocket.click();
         update.click();
@@ -227,14 +223,15 @@ export const init = () => {
     }); */
 
     graph.on("change:columns", function (cell) {
-        console.log("se cambio los atributos");
+        //console.log("se cambio los atributos");
         txt_original.value = JSON.stringify(graph.toJSON());
         btnSocket.click();
         update.click();
     });
 
+
     graph.on("change:position", function (cell) {
-        console.log("se cambio los posicion");
+        //console.log("se cambio los posicion");
         txt_original.value = JSON.stringify(graph.toJSON());
         btnSocket.click();
         update.click();
@@ -242,16 +239,31 @@ export const init = () => {
     });
 
     graph.on("change:labels", function (cell) {
-        console.log("se cambio los labels de los links");
+        //console.log("se cambio los labels de los links");
         console.log(graph.toJSON());
         txt_original.value = JSON.stringify(graph.toJSON());
         btnSocket.click();
         update.click();
     });
 
+    /* graph.on("add", function (cell) {
+        console.log("se añadio un elemento");
+        txt_original.value = JSON.stringify(graph.toJSON());
+        btnSocket.click();
+        update.click();
+    }); */
+
+    
+
+    graph.on('change:source change:target', function(link) {
+        txt_original.value = JSON.stringify(graph.toJSON());
+        btnSocket.click();
+        update.click();
+    });
+
     graph.on("remove", function (cell) {
-        console.log("se eliminó un elemento");
-        console.log(graph.toJSON());
+       // console.log("se eliminó un elemento");
+       // console.log(graph.toJSON());
         txt_original.value = JSON.stringify(graph.toJSON());
         btnSocket.click();
         update.click();
@@ -334,14 +346,17 @@ export const init = () => {
                                 label: "Type",
                                 type: "select",
                                 options: [
-                                    "char",
+                                    "character",
                                     "varchar",
-                                    "int",
-                                    "datetime",
+                                    "text",
+                                    "integer",
+                                    "bigint",
+                                    "smallint",
+                                    "real",
+                                    "date",
+                                    "time",
                                     "timestamp",
                                     "boolean",
-                                    "enum",
-                                    "uniqueidentifier",
                                 ],
                             },
                             /* others:{
@@ -396,6 +411,7 @@ export const init = () => {
         inspector.on("change:attrs/headerLabel/text", () => {
             dialogTitleBar.textContent = table.getName();
         });
+
 
         dialog.on("action:close", () => {
             inspector.remove();
@@ -577,57 +593,83 @@ export const init = () => {
         Livewire.emit("saveChanges", id_diagram.value, txt_original.value);
     });
 
-    /* const descargarArchivoSQL = function (contenido, nombreArchivo) {
+    const descargarArchivoSQL = function (contenido, nombreArchivo) {
         const enlace = document.createElement("a");
         const contenidoArchivo = new Blob([contenido], { type: "text/plain" });
 
         enlace.href = URL.createObjectURL(contenidoArchivo);
         enlace.download = nombreArchivo + ".sql";
         enlace.click();
-    }; */
+    };
 
 
+    Livewire.on("descargarSql", function (contenido) {
+        descargarArchivoSQL(contenido, "diagrama");
+    });
 
-    const btnMySql = document.getElementById("btn-mysql");
+    const sintaxisAtributo = function (tipoDeAtributo,tipoGestorDB) {
+       if (tipoGestorDB == "mysql") {
+           switch (tipoDeAtributo) {
+            case "character":
+                return "CHAR";
+            case "varchar":
+                return "VARCHAR";
+            case "text":
+                return "TEXT";
+            case "integer":
+                return "INT";
+            case "bigint":
+                return "BIGINT";
+            case "smallint":
+                return "SMALLINT";
+            case "real":
+                return "FLOAT";
+            case "date":
+                return "DATE";
+            case "time":
+                return "TIME";
+            case "timestamp":
+                return "TIMESTAMP";
+            case "boolean":
+                return "BOOLEAN";
+            default:
+                return tipoDeAtributo;            
+           }
+       }else if (tipoGestorDB == "sqlserver") {
+              switch (tipoDeAtributo) {
+                case "character":
+                return "CHAR";
+                case "varchar":
+                    return "VARCHAR";
+                case "text":
+                    return "TEXT";
+                case "integer":
+                    return "INT";
+                case "bigint":
+                    return "BIGINT";
+                case "smallint":
+                    return "SMALLINT";
+                case "real":
+                    return "REAL";
+                case "date":
+                    return "DATE";
+                case "time":
+                    return "TIME";
+                case "timestamp":
+                    return "DATETIME";
+                case "boolean":
+                    return "BIT";
+                default:
+                    return tipoDeAtributo;
+              }
+       }else {
+            return tipoDeAtributo;
+       }
 
-    btnMySql.addEventListener("click", () => {
-        console.log(graph);
+    }
 
-        let json = graph.toJSON();
-        let arrayJSON = Object.values(json)[0];
-        console.log(arrayJSON);
-
-        let jsonString = JSON.stringify(json);
-        let array = JSON.parse(jsonString).cells;
-        console.log(array);
-
-        let tablas = [];
-
-        arrayJSON.forEach((currentItem) => {
-            if (currentItem.type != "app.Link") {
-                let tabla = `CREATE TABLE ${currentItem.attrs.headerLabel.text} (\n`;
-                currentItem.columns.forEach((atributo) => {
-                    tabla = `${tabla} ${atributo.name} ${atributo.type} NOT NULL,\n`;
-                });
-                tabla = `${tabla} )`;
-                tablas.push(tabla);
-            } else {
-            }
-        });
-
-        let contenido;
-        tablas.forEach((currentItem) => {
-            contenido += currentItem + "\n";
-        });
-
-        console.log(graph.getElements());
-        console.log(graph.getLinks());
-
-        let elements = graph.getElements();
-        let links = graph.getLinks();
-
+    const relaciones = function (links, elements) {
         let relaciones = [];
-
         if (links != undefined) {
             links.forEach((currentItem) => {
                 let linkActual = currentItem.attributes;
@@ -636,7 +678,7 @@ export const init = () => {
                     let idDestino = linkActual.target.id;
                     let tablaOrigen = "";
                     let tablaDestino = "";
-
+    
                     elements.forEach((currentItem) => {
                         if (currentItem.id == idOrigen) {
                             tablaOrigen =
@@ -647,11 +689,11 @@ export const init = () => {
                                 currentItem.attributes.attrs.headerLabel.text;
                         }
                     });
-
+    
                     let multiplicidadOrigen = "";
                     let multiplicidadDestino = "";
                     let nombreRelacion = "";
-
+    
                     linkActual.labels.forEach((currentItem) => {
                         if (currentItem.fuente == 'origen') {
                             multiplicidadOrigen = currentItem.attrs.text.text;
@@ -659,28 +701,28 @@ export const init = () => {
                             multiplicidadDestino = currentItem.attrs.text.text;
                         }
                     });
-
+    
                     if (
                         multiplicidadOrigen == "1" &&
                         multiplicidadDestino == "1"
                     ) {
                         nombreRelacion = "uno a uno";
                     }
-
+    
                     if (
                         multiplicidadOrigen == "*" &&
                         multiplicidadDestino == "1"
                     ) {
                         nombreRelacion = "uno a muchos origen";
                     }
-
+    
                     if (
                         (multiplicidadOrigen == "1" &&
                         multiplicidadDestino == "*")
                     ) {
                         nombreRelacion = "uno a muchos destino";
                     }
-
+    
                     if (
                         multiplicidadOrigen == "*" &&
                         multiplicidadDestino == "*"
@@ -692,29 +734,100 @@ export const init = () => {
                 }
             });
         }
+        return relaciones;
+    };
+    
+    const sintaxisAlterarTabla = function (tipoGestorDB, tipoAccion) {
+        if (tipoGestorDB === 'sqlserver' && tipoAccion === 'ADD') {
+            return 'ADD';
+        }else if(((tipoGestorDB === 'mysql'|| tipoGestorDB === 'postgresql')  && tipoAccion === 'ADD')){
+            return 'ADD COLUMN';
+        }
 
-        relaciones.forEach((currentItem) => {
+        if (tipoGestorDB === 'sqlserver' && tipoAccion === 'FOREIGN') {
+            return 'FOREIGN';
+        }else if((tipoGestorDB === 'mysql'|| tipoGestorDB === 'postgresql')  && tipoAccion === 'FOREIGN'){
+            return 'ADD FOREIGN';
+        }
+
+        return '';
+    }
+
+
+    const btnExportar = document.getElementById("btn-exportar");
+    const databaseSelect = document.getElementById("databaseSelect");
+    btnExportar.dataset.tipoGestorDB = databaseSelect.value;
+    
+    databaseSelect.addEventListener("change", () => {
+        btnExportar.dataset.tipoGestorDB = databaseSelect.value;
+    });
+
+    btnExportar.addEventListener("click", (event) => {
+        let tipoGestorDB = event.target.dataset.tipoGestorDB;
+        let json = graph.toJSON();
+        let arrayJSON = Object.values(json)[0];
+
+        let jsonString = JSON.stringify(json);
+        let array = JSON.parse(jsonString).cells;
+        //console.log(array);
+
+        let tablas = [];
+
+        arrayJSON.forEach((currentItem, index) => {
+            if (currentItem.type != "app.Link") {
+                let tabla = `CREATE TABLE ${currentItem.attrs.headerLabel.text} (\n`;
+                currentItem.columns.forEach((atributo,columnIndex) => {
+                    if (atributo.key && atributo.name == "id"){
+                        tabla = `${tabla} ${atributo.name} ${sintaxisAtributo(atributo.type,tipoGestorDB)} NOT NULL PRIMARY KEY,\n`;
+                    }
+                    else if (columnIndex === currentItem.columns.length - 1) {
+                        tabla = `${tabla} ${atributo.name} ${sintaxisAtributo(atributo.type,tipoGestorDB)} NOT NULL\n`;
+                    }
+                    else{
+                        tabla = `${tabla} ${atributo.name} ${sintaxisAtributo(atributo.type,tipoGestorDB)} NOT NULL,\n`;
+                    }
+                });
+                tabla = `${tabla} );\n`;
+                tablas.push(tabla);
+            } else {
+
+            }
+        });
+
+        let contenido = "";
+        tablas.forEach((currentItem) => {
+            contenido += currentItem + "\n";
+        });
+
+       
+        console.log(graph.getElements());
+        /* console.log(graph.getLinks()); */
+
+        let elements = graph.getElements();
+        
+        let links = graph.getLinks();
+
+        let relacioness = relaciones(links, elements);
+
+    
+        relacioness.forEach((currentItem) => {
             if (currentItem.nombreRelacion == "uno a uno") {
-                contenido = `${contenido} ALTER TABLE ${currentItem.tablaOrigen} ADD COLUMN ${currentItem.tablaDestino}_id 
-                ADD CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino} 
-                FOREIGN KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id);\n`;
+                contenido = `${contenido} ALTER TABLE ${currentItem.tablaOrigen} ${sintaxisAlterarTabla(tipoGestorDB,'ADD')} ${currentItem.tablaDestino}_id INTEGER NOT NULL,
+                ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id);\n`;
             }else if(currentItem.nombreRelacion == "uno a muchos origen"){
-                contenido = `${contenido} ALTER TABLE ${currentItem.tablaOrigen} 
-                ADD COLUMN ${currentItem.tablaDestino}_id 
-                ADD CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino} 
-                FOREIGN KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id);\n`;
+                contenido = `${contenido} ALTER TABLE ${currentItem.tablaOrigen} ${sintaxisAlterarTabla(tipoGestorDB,'ADD')} ${currentItem.tablaDestino}_id INTEGER NOT NULL,
+                ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id);\n`;
                 
             }else if(currentItem.nombreRelacion == "uno a muchos destino"){
-                contenido = `${contenido} ALTER TABLE ${currentItem.tablaDestino} ADD COLUMN ${currentItem.tablaOrigen}_id 
-                ADD CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino} 
-                FOREIGN KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id);\n`;
+                contenido = `${contenido} ALTER TABLE ${currentItem.tablaDestino} ${sintaxisAlterarTabla(tipoGestorDB,'ADD')} ${currentItem.tablaOrigen}_id INTEGER NOT NULL,
+                ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id);\n`;
             }else if(currentItem.nombreRelacion == "muchos a muchos"){
                 contenido = `${contenido} CREATE TABLE ${currentItem.tablaOrigen}_${currentItem.tablaDestino} (\n 
-                    ${currentItem.tablaOrigen}_id INT NOT NULL,\n 
-                    ${currentItem.tablaDestino}_id INT NOT NULL,\n 
-                    CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino} PRIMARY KEY (${currentItem.tablaOrigen}_id, ${currentItem.tablaDestino}_id),\n 
-                    CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino}_${currentItem.tablaOrigen}_fk FOREIGN KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id),\n 
-                    CONSTRAINT ${currentItem.tablaOrigen}_${currentItem.tablaDestino}_${currentItem.tablaDestino}_fk FOREIGN KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id)\n);\n`;
+                    ${currentItem.tablaOrigen}_id INTEGER NOT NULL,\n 
+                    ${currentItem.tablaDestino}_id INTEGER NOT NULL,\n 
+                    PRIMARY KEY (${currentItem.tablaOrigen}_id, ${currentItem.tablaDestino}_id),\n 
+                    ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id),\n 
+                    ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id)\n);\n`;
             }
         });
         const nombreArchivo = "diagrama1";
@@ -723,5 +836,159 @@ export const init = () => {
 
         
     });
+
+    const btnGenerarVistas = document.getElementById("btn-generar-vistas");
+    btnGenerarVistas.addEventListener("click", (event) => {
+        descargarZip();
+    });
+
+    const generarVistas = function () {
+        let arrayTablas = graph.getElements();
+        //console.log(arrayTablas);
+        let htmlHead =`<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Vistas</title>
+          <link rel="stylesheet" href="style.css">
+        </head>`;
+
+        let htmlBody = `<body>\n`;
+        arrayTablas.forEach((currentTabla) => {
+
+            htmlBody += `<div class="formulario">
+            <h2>Agregar ${currentTabla.attributes.attrs.headerLabel.text}</h2>
+            <form>\n`;
+
+            currentTabla.attributes.columns.forEach((currentColumn) => {
+                if (currentColumn.name != "id") {
+                    htmlBody += `<label for="${currentColumn.name}">${currentColumn.name}</label>
+                    <input type="text" id="${currentColumn.name}" name="${currentColumn.name}" required><br>\n`;
+                }
+            });
+
+            htmlBody += `<button type="submit">Agregar</button>
+            </form>
+            </div>\n`;
+
+            htmlBody += `<table>\n`;
+            htmlBody += `<thead>
+                <tr>\n`;
+            currentTabla.attributes.columns.forEach((atributo) => {
+                htmlBody += `<th>${atributo.name}</th>\n`;
+            });
+            htmlBody += `<th>Acciones</th>\n`;
+            htmlBody += `</tr>
+            </thead>\n`;
+            htmlBody += `<tbody>\n`;
+            htmlBody += `<tr>\n`;
+            currentTabla.attributes.columns.forEach((atributo) => {
+                htmlBody += `<td>Lorem ipsum</td>\n`;
+            });
+            htmlBody += `<td>
+            <button class="btn-editar">Editar</button>
+            <button class="btn-eliminar">Eliminar</button>
+            </td>\n`;
+            htmlBody += `</tr>\n`;
+            htmlBody += `</tbody>\n`;
+            htmlBody += `</table>\n`;
+            htmlBody += `<br> <br>\n`;
+
+        });
+
+        htmlBody += `</body>\n`;
+
+        let html = `${htmlHead}\n${htmlBody}\n</html>`;
+        return html;
+    }
+
+
+    
+
+    function descargarZip() {
+        // Agregar el archivo HTML al ZIP
+        const htmlContent = generarVistas();
+        zip.file('vistas.html', htmlContent);
+    
+        // Agregar el archivo CSS al ZIP
+        const cssContent = `
+        body {
+          font-family: Arial, sans-serif;
+        }
+    
+        h1 {
+          text-align: center;
+        }
+    
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+    
+        table th,
+        table td {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+    
+        table th {
+          background-color: #f2f2f2;
+        }
+    
+        .btn-editar,
+        .btn-eliminar {
+          padding: 5px 10px;
+          border: none;
+          background-color: #4CAF50;
+          color: white;
+          cursor: pointer;
+        }
+    
+        .btn-eliminar {
+          background-color: #f44336;
+        }
+    
+        .formulario {
+          margin-bottom: 20px;
+        }
+    
+        .formulario input[type="text"],
+        .formulario input[type="number"],
+        .formulario textarea {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+    
+        .formulario button {
+          padding: 10px 20px;
+          border: none;
+          background-color: #4CAF50;
+          color: white;
+          cursor: pointer;
+        }
+    `;
+        zip.file('style.css', cssContent);
+    
+        // Generar el archivo ZIP
+        zip.generateAsync({ type: 'blob' })
+        .then((content) => {
+            // Guardar el archivo ZIP
+            const zipName = 'archivos.zip';
+            if (navigator.msSaveBlob) {
+            // Para navegadores Microsoft Edge/Internet Explorer
+            navigator.msSaveBlob(content, zipName);
+            } else {
+            // Para otros navegadores
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = zipName;
+            link.click();
+            }
+        })
+        .catch((error) => {
+            console.error('Error al generar el archivo ZIP:', error);
+        });
+    }
 
 };

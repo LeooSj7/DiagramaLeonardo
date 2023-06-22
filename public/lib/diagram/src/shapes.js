@@ -153,7 +153,7 @@ export class Table extends shapes.standard.HeaderedRecord {
             if (item.key) {
                 Object.assign(value, {
                     group: 'keys',
-                    icon: 'assets/key.svg'
+                    icon: '../dist/assets/key.svg'
                 });
             }
             values.push(value);

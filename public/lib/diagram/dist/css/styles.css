@@ -12,16 +12,12 @@
   */
 }
 #app .canvas {
- /*  top: 0;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  position: absolute;*/
-  background-image: radial-gradient(#000 1px, transparent 2px);
-  background-size: 20px 20px;
-  width: 80%; /* Ajusta el ancho según tus necesidades */
-  height: 89%; /* Ajusta la altura según tus necesidades */
-  
+  position: absolute;
+  background: #F3F7F6;
 }
 #app .canvas .joint-element {
   filter: drop-shadow(0.1rem 0.1rem 0.15rem rgba(0, 0, 0, 0.2));

@@ -27,7 +27,7 @@ class DiagramController extends Controller
             if ($notification->read_at == null && $notification->data['diagram_id'] == $id) 
                 $notification->markAsRead();
         } */
- 
+        
         $diagram = Diagram::findOrFail($id);
 
         $user_has_diagram = UserHasDiagram::where('diagram_id', $id)
@@ -39,7 +39,7 @@ class DiagramController extends Controller
                 abort(404);
         }
         
-        return view('diagrama.prueba', compact('diagram'));
+        return view('diagrama.edit', compact('diagram'));
     }
 
     public function editColaboradores(Diagram $diagram) {

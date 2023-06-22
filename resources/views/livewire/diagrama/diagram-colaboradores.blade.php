@@ -4,7 +4,7 @@
         
         <div class="relative">
             <x-input wire:model='search' type="search" placeholder="Search…"
-                class="form-input pl-9  focus:ring-blue-500 focus:border-blue-500" />
+                class="w-2/4 form-input pl-9  focus:ring-indigo-500 focus:border-indigo-500" />
             <span class="absolute pr-3 pt-2.5 inset-0 right-auto  ">
                 <svg class=" w-4 h-4 shrink-0 fill-current text-slate-400 group-hover:text-slate-500 ml-3 mr-2"
                     viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -79,15 +79,12 @@
                                     <!-- List -->
                                     <ul class="text-sm space-y-2 mb-5">
                                         <li class="flex items-center">
-                                            <svg class="w-4 h-4 fill-current text-slate-400 shrink-0 mr-3"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
-                                            </svg>
+                                            <img class="w-4 h-4 fill-current text-slate-400 shrink-0 mr-3" src="{{asset('images/tipos.png')}}" alt="">
+                                            
                                             <div class=>Tipo: {{ $diagram_has_user->diagraman_type }}</div>
                                         </li>
                                         <li class="flex items-center">
-                                            <svg class="w-4 h-4 fill-current text-slate-400 shrink-0 mr-3"
+                                            <svg class="w-4 h-4 fill-current text-black shrink-0 mr-3"
                                                 viewBox="0 0 16 16">
                                                 <path
                                                     d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />

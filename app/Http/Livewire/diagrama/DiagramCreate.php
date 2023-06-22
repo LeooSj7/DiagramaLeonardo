@@ -36,7 +36,7 @@ class DiagramCreate extends Component
 
             DB::commit();
             $this->open = false;
-            return redirect()->route('diagrama.edit');
+            return redirect()->route('diagrama.edit', $diagram->id);
 
         } catch (\Throwable $th) {
 

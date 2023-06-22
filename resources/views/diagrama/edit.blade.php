@@ -1,26 +1,16 @@
-@section('title', 'Diagramas')
+@section('title', 'Diagram Edit')
 @section('script-css')
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('buildjs/package/rappid.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/Js/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/Js/css/theme-picker.css') }}">
-
-    <!-- theme-specific application CSS  -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/Js/css/style.dark.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/Js/css/style.material.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/Js/css/style.modern.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/diagram/src/styles.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('css/loader-page.css') }}"> --}}
     <script defer src="{{ asset('js/prueba.js') }}" type="text/javascript"></script>
-
 
 
     {{-- Socket IO --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"
         integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    
     <script type="importmap">
             {
               "imports": {
@@ -35,7 +25,7 @@
              transports: ["websocket"]
          });
 
-        /* const socket = io("http://44.202.92.222:3000/", {
+        /* const socket = io("https://soketio-diagramador-production.up.railway.app/", {
             transports: ["websocket"]
         }); */
 
@@ -48,13 +38,14 @@
         const email_user = document.getElementById('email_user').value
         const btn = document.querySelector('#btn-1')
         
-        const btn2 = document.getElementById('btn')
+        const btnAudio = document.getElementById('btnAudio')
         const audio = document.getElementById('audio')
         
 
-        btn2.addEventListener('click', () => {
+        btnAudio.addEventListener('click', () => {
             audio.play();
         })
+        
 
         const data_user = [name_user, email_user, id]
         socket.emit('join-room', id, data_user);
@@ -72,7 +63,7 @@
 
         // Indica el usuario conectado
         socket.on('new-connection-user', (users) => {
-            document.getElementById('btn').click()
+            document.getElementById('btnAudio').click()
             let Toast = Swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -122,7 +113,7 @@
                     
                     let imgUser = document.createElement("img")
                     imgUser.classList.add('rounded-full')
-                    imgUser.src = "https://media.tycsports.com/files/2022/06/14/440404/las-20-mejores-fotos-de-perfil-para-tu-cuenta-de-free-fire_w416.webp"
+                    imgUser.src = "https://static.vecteezy.com/system/resources/previews/019/896/008/non_2x/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
                     imgUser.width = 30
                     imgUser.heigth = 30
                     divUser.appendChild(imgUser)
@@ -169,80 +160,44 @@
 @endsection
 
 <x-app-layout>
-    {{-- <div id="loader-page" class="loader-page"></div> --}}
 
-    <div id="app">
-        <div class="app-header">
-            <div class="app-title">
-                <h1>My Diagram</h1>
-            </div>
-            <div class="toolbar-container"></div>
+    <div id="app" class="flex">
+        <div class="canvas relative flex-1 bg-radial-gradient">
+          <div class="  relative top-0 left-0 pt-2 pr-3">
+            <button id="btn-generar-vistas" class=" bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Generar Vistas</button>
+            <button id="btn-exportar" data-tipoGestorDB="" class="bg-indigo-500 hover:indigo-blue-700 text-white font-bold py-2 px-4 rounded">Generar Script</button>
+            <select id="databaseSelect">
+                <option value="postgresql">PostgreSQL</option>
+                <option value="sqlserver">SQL Server</option>
+                <option value="mysql">MySQL</option>
+              </select>
+            <button id="btn-guardar" class="bg-indigo-500 hover:indigo-blue-700 text-white font-bold py-2 px-4 rounded">Guardar Diagrama</button>
+            @livewire('diagrama.diagram-mostrar-script');
         </div>
-        <div class="app-body">
-            <div class="stencil-container"></div>
-            <div class="paper-container"></div>
-            <div class="inspector-container"></div>
-            <div class="navigator-container"></div>
-            <div class="collaborators-container overflow-y-auto">
-                <div class="flex w-full bg-gray-300" style="height: 12%">
-                    <i class="fa-solid fa-user text-lg mx-3"></i>
-                    <h1 class="text-black text-lg">Colaboradores</h1>
-                    <audio src="{{ asset('notify.mp3') }}" id="audio" hidden></audio>
-                    <button id="btn" hidden>Button</button>
-                </div>
-                <div class="w-full bg-gray-200 my-0" style="min-height: 88%">
-                    <h1 class="font-sans p-2"><i class="fa-solid fa-circle text-green-500 mx-2"></i>Conectados</h1>
-                    <div class="mt-3" id="collaborators"></div>
-                </div>
-            </div>
+          <!-- Contenido del lienzo -->
         </div>
-        @livewire('diagrama.diagram-update', ['diagram' => $diagram])
-
-        <input type="hidden" id="name_user" value="{{ Auth::user()->name }}">
+        <div class="collaborators-container overflow-y-auto flex-1 bg-gray-200">
+          <div class="flex flex-col h-full">
+            <div class="flex items-center bg-gray-300 py-2 px-3">
+                <i class="fa-solid fa-user text-lg mr-3 text-indigo-600"></i>
+                <h1 class="text-black text-lg">Colaboradores </h1>
+                <audio src="{{ asset('iphone-notificacion.mp3') }}" id="audio" hidden></audio>
+                    <button id="btnAudio" hidden>Button</button>
+            </div>
+            <div class="flex-1 bg-gray-200">
+              <h1 class="font-sans p-2"><i class="fa-solid fa-circle text-green-500 mx-2"></i>Conectados</h1>
+              <div class="mt-3" id="collaborators">
+                <!-- Contenido de los colaboradores -->
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
-    <script></script>
-
-    <!-- JointJS+ dependencies: -->
-    <script src="{{ asset('lib/node_modules/jquery/dist/jquery.js') }}"></script>
-    <script src="{{ asset('lib/node_modules/lodash/lodash.js') }}"></script>
-    <script src="{{ asset('lib/node_modules/backbone/backbone.js') }}"></script>
-    <script src="{{ asset('lib/node_modules/graphlib/dist/graphlib.core.js') }}"></script>
-    <script src="{{ asset('lib/node_modules/dagre/dist/dagre.core.js') }}"></script>
-
-    <script src="{{ asset('buildjs/package/rappid.js') }}"></script>
-
-    <!--[if IE 9]>
-        <script>
-            // `-ms-user-select: none` doesn't work in IE9
-            document.onselectstart = function() {
-                return false;
-            };
-        </script>
-    <![endif]-->
-
-    <!-- Application files:  -->
-    <script src="{{ asset('lib/Js/js/config/halo.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/config/selection.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/config/inspector.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/config/stencil.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/config/toolbar.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/config/sample-graphs.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/views/main.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/views/theme-picker.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/models/joint.shapes.app.js') }}"></script>
-    <script src="{{ asset('lib/Js/js/views/navigator.js') }}"></script>
-
-    <!-- Local file warning: -->
-    <div id="message-fs" style="display: none;">
-        <p>The application was open locally using the file protocol. It is recommended to access it trough a <b>Web
-                server</b>.</p>
-        <p>Please see <a href="README.md">instructions</a>.</p>
-    </div>
-
-    <script src="{{ asset('js/prevent-reload.js') }}"></script>
-
-    @push('js')
-        <script src="{{ asset('lib/Js/js/config/start-joint.js') }}"></script>
-    @endpush
+   
+    @livewire('diagrama.diagram-update', ['diagram' => $diagram]);
+     
+ 
+       
+    <script src="{{ asset('lib/diagram/dist/bundle.js') }}"></script>
 </x-app-layout>

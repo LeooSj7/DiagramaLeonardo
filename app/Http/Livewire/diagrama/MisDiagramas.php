@@ -26,7 +26,7 @@ class MisDiagramas extends Component
 
     public function delete(Diagram $diagram){
         try {
-            
+            /* dd($diagram); */
             $diagram->delete();
 
         } catch (\Throwable $th) {

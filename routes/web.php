@@ -33,7 +33,7 @@ Route::middleware([
     Route::get('/colaboradores/editar/{diagram}',[DiagramController::class,'editColaboradores'] )->name('diagrama.editar.colaboradores');
     Route::get('/diagrama/editar/{id}', [DiagramController::class,'editDiagrama'])->name('diagrama.edit');
     
-    Route::get('/diagrama/edit', function () {
+    Route::get('/diagrama/prueba', function () {
         return view('diagrama.prueba');
     })->name('diagrama.prueba');
     

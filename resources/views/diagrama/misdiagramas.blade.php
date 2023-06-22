@@ -60,7 +60,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
     
-                            Livewire.emitTo('mis-diagramas', 'delete', diagramId);
+                            Livewire.emitTo('diagrama.mis-diagramas', 'delete', diagramId);
                             Swal.fire(
                                 'Eliminado!',
                                 'El Diagrama ha sido eliminado.',

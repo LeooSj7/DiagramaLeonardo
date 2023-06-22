@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Diagrama;
 
 use Livewire\Component;
+use Illuminate\Http\Response;
 
 class DiagramMostrarScript extends Component
 {
@@ -22,6 +23,10 @@ class DiagramMostrarScript extends Component
         $this->open = true;
     }
     public function save(){
-
+        $this->validate([
+            'contenido' => 'required'
+        ]);
+        $this->emit('descargarSql', $this->contenido);
+        $this->reset('open');
     }
 }
