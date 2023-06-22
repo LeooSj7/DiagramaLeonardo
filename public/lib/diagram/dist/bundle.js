@@ -397,7 +397,7 @@ var init = function init() {
               type: {
                 label: "Type",
                 type: "select",
-                options: ["character", "varchar", "text", "integer", "bigint", "smallint", "real", "date", "time", "timestamp", "boolean"]
+                options: ["character", "varchar(50)", "text", "integer", "bigint", "smallint", "real", "date", "time", "timestamp", "boolean"]
               },
               /* others:{
                   label: 'Methods',
@@ -478,7 +478,7 @@ var init = function init() {
                   text: {
                     label: "Multiplicidad",
                     type: "select",
-                    options: ["1", "0..*", "1..*", "*"]
+                    options: ["1", "*"]
                   }
                 }
               }
@@ -616,8 +616,8 @@ var init = function init() {
       switch (tipoDeAtributo) {
         case "character":
           return "CHAR";
-        case "varchar":
-          return "VARCHAR";
+        case "varchar(50)":
+          return "VARCHAR(50)";
         case "text":
           return "TEXT";
         case "integer":
@@ -644,7 +644,7 @@ var init = function init() {
         case "character":
           return "CHAR";
         case "varchar":
-          return "VARCHAR";
+          return "VARCHAR(50)";
         case "text":
           return "TEXT";
         case "integer":
@@ -752,7 +752,9 @@ var init = function init() {
       if (currentItem.type != "app.Link") {
         var tabla = "CREATE TABLE ".concat(currentItem.attrs.headerLabel.text, " (\n");
         currentItem.columns.forEach(function (atributo, columnIndex) {
-          if (atributo.key && atributo.name == "id") {
+          if (atributo.key && atributo.name == "id" && columnIndex === currentItem.columns.length - 1) {
+            tabla = "".concat(tabla, " ").concat(atributo.name, " ").concat(sintaxisAtributo(atributo.type, tipoGestorDB), " NOT NULL PRIMARY KEY\n");
+          } else if (atributo.key && atributo.name == "id") {
             tabla = "".concat(tabla, " ").concat(atributo.name, " ").concat(sintaxisAtributo(atributo.type, tipoGestorDB), " NOT NULL PRIMARY KEY,\n");
           } else if (columnIndex === currentItem.columns.length - 1) {
             tabla = "".concat(tabla, " ").concat(atributo.name, " ").concat(sintaxisAtributo(atributo.type, tipoGestorDB), " NOT NULL\n");
@@ -782,7 +784,7 @@ var init = function init() {
       } else if (currentItem.nombreRelacion == "uno a muchos destino") {
         contenido = "".concat(contenido, " ALTER TABLE ").concat(currentItem.tablaDestino, " ").concat(sintaxisAlterarTabla(tipoGestorDB, 'ADD'), " ").concat(currentItem.tablaOrigen, "_id INTEGER NOT NULL,\n                ").concat(sintaxisAlterarTabla(tipoGestorDB, 'FOREIGN'), " KEY (").concat(currentItem.tablaOrigen, "_id) REFERENCES ").concat(currentItem.tablaOrigen, " (id);\n");
       } else if (currentItem.nombreRelacion == "muchos a muchos") {
-        contenido = "".concat(contenido, " CREATE TABLE ").concat(currentItem.tablaOrigen, "_").concat(currentItem.tablaDestino, " (\n \n                    ").concat(currentItem.tablaOrigen, "_id INTEGER NOT NULL,\n \n                    ").concat(currentItem.tablaDestino, "_id INTEGER NOT NULL,\n \n                    PRIMARY KEY (").concat(currentItem.tablaOrigen, "_id, ").concat(currentItem.tablaDestino, "_id),\n \n                    ").concat(sintaxisAlterarTabla(tipoGestorDB, 'FOREIGN'), " KEY (").concat(currentItem.tablaOrigen, "_id) REFERENCES ").concat(currentItem.tablaOrigen, " (id),\n \n                    ").concat(sintaxisAlterarTabla(tipoGestorDB, 'FOREIGN'), " KEY (").concat(currentItem.tablaDestino, "_id) REFERENCES ").concat(currentItem.tablaDestino, " (id)\n);\n");
+        contenido = "".concat(contenido, " CREATE TABLE ").concat(currentItem.tablaOrigen, "_").concat(currentItem.tablaDestino, " (\n \n                    ").concat(currentItem.tablaOrigen, "_id INTEGER NOT NULL,\n \n                    ").concat(currentItem.tablaDestino, "_id INTEGER NOT NULL,\n \n                    PRIMARY KEY (").concat(currentItem.tablaOrigen, "_id, ").concat(currentItem.tablaDestino, "_id),\n \n                    FOREIGN KEY (").concat(currentItem.tablaOrigen, "_id) REFERENCES ").concat(currentItem.tablaOrigen, " (id),\n \n                    FOREIGN KEY (").concat(currentItem.tablaDestino, "_id) REFERENCES ").concat(currentItem.tablaDestino, " (id)\n);\n");
       }
     });
     var nombreArchivo = "diagrama1";

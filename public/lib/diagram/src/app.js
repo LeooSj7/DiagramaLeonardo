@@ -347,7 +347,7 @@ export const init = () => {
                                 type: "select",
                                 options: [
                                     "character",
-                                    "varchar",
+                                    "varchar(50)",
                                     "text",
                                     "integer",
                                     "bigint",
@@ -454,7 +454,7 @@ export const init = () => {
                                     text: {
                                         label: "Multiplicidad",
                                         type: "select",
-                                        options: ["1", "0..*", "1..*", "*"],
+                                        options: ["1","*"],
                                     },
                                 },
                             },
@@ -612,8 +612,8 @@ export const init = () => {
            switch (tipoDeAtributo) {
             case "character":
                 return "CHAR";
-            case "varchar":
-                return "VARCHAR";
+            case "varchar(50)":
+                return "VARCHAR(50)";
             case "text":
                 return "TEXT";
             case "integer":
@@ -640,7 +640,7 @@ export const init = () => {
                 case "character":
                 return "CHAR";
                 case "varchar":
-                    return "VARCHAR";
+                    return "VARCHAR(50)";
                 case "text":
                     return "TEXT";
                 case "integer":
@@ -777,7 +777,9 @@ export const init = () => {
             if (currentItem.type != "app.Link") {
                 let tabla = `CREATE TABLE ${currentItem.attrs.headerLabel.text} (\n`;
                 currentItem.columns.forEach((atributo,columnIndex) => {
-                    if (atributo.key && atributo.name == "id"){
+                    if ((atributo.key && atributo.name == "id" && columnIndex === currentItem.columns.length - 1)){
+                        tabla = `${tabla} ${atributo.name} ${sintaxisAtributo(atributo.type,tipoGestorDB)} NOT NULL PRIMARY KEY\n`;
+                    }else if(atributo.key && atributo.name == "id"){
                         tabla = `${tabla} ${atributo.name} ${sintaxisAtributo(atributo.type,tipoGestorDB)} NOT NULL PRIMARY KEY,\n`;
                     }
                     else if (columnIndex === currentItem.columns.length - 1) {
@@ -826,8 +828,8 @@ export const init = () => {
                     ${currentItem.tablaOrigen}_id INTEGER NOT NULL,\n 
                     ${currentItem.tablaDestino}_id INTEGER NOT NULL,\n 
                     PRIMARY KEY (${currentItem.tablaOrigen}_id, ${currentItem.tablaDestino}_id),\n 
-                    ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id),\n 
-                    ${sintaxisAlterarTabla(tipoGestorDB,'FOREIGN')} KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id)\n);\n`;
+                    FOREIGN KEY (${currentItem.tablaOrigen}_id) REFERENCES ${currentItem.tablaOrigen} (id),\n 
+                    FOREIGN KEY (${currentItem.tablaDestino}_id) REFERENCES ${currentItem.tablaDestino} (id)\n);\n`;
             }
         });
         const nombreArchivo = "diagrama1";
