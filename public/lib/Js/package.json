@@ -7,5 +7,7 @@
   "author": "client IO",
   "license": "http://jointjs.com/license/rappid",
   "private": true,
-  "devDependencies": {}
+  "dependencies": {
+    "joint-kitchen-sink": "file:"
+  }
 }

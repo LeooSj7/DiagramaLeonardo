@@ -1,4 +1,4 @@
-<div class="overflow-hidden w-4/6 rounded-2xl bg-white border border-spacing-3 p-4 lg:p-12 lg:ml-2">
+<div class="overflow-hidden w-4/6 rounded-none bg-gray-700 border border-spacing-3 p-4 lg:p-12 lg:ml-2">
     <style>
         li .select2-selection_choice {
             background-color: red;
@@ -35,25 +35,25 @@
             position: relative;
         }
     </style>
-    <h1 class="text-2xl font-bold hover:text-indigo-600 text-center">Administra tus diagramas</h1>
-    <div class="my-3">
-        <label for="diagram_name" class="block mb-2 text-sm font-medium text-gray-900">Nombre diagrama</label>
-        <input type="text" id="diagram_name" wire:model="name"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+<h1 class="text-2xl font-serif hover:text-gray-700 text-center">Configuración de colaboraciones</h1>
+<div class="my-3">
+    <label for="diagram_name" class="block mb-2 text-sm font-serif font-medium text-black">Proyecto nombre</label>
+    <input type="text" id="diagram_name" wire:model="name"
+            class="bg-gray-500 border border-gray-300 text-black text-sm rounded-none focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
             value="{{ $name }}" required>
     </div>
     <div class="my-3">
-        <label for="diagram_type" class="block mb-2 text-sm font-medium text-gray-900 ">Tipo diagrama</label>
+        <label for="diagram_type" class="block mb-2 text-sm font-medium text-black font-serif">Estilo del diagrama de DB</label>
         <input type="text" id="diagram_type" wire:model="type"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+            class="bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-none focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
             value="{{ $type }}" required>
     </div>
     <div class="grid my-3 justify-end">
         <button wire:click="diagramUpdate"
-            class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-400 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Actualizar</button>
+            class="text-black bg-gray-800 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-indigo-400 font-medium rounded-none text-sm w-full sm:w-auto px-5 py-2.5 text-center">Modificar</button>
     </div>
-    <h1 class="text-2xl font-bold hover:text-indigo-600 text-center mt-7">Colaboradores</h1>
-    <p class="text-sm text-gray-400 text-center mb-7">Puede añadir a uno o más colaboradores a la vez</p>
+    <h1 class="text-2xl font-bold  text-center mt-7 font-serif">Usuarios</h1>
+    <p class="text-sm text-gray-400 text-center mb-7">Añade compañeros</p>
     {{-- {{ json_encode($select_users) }} --}}
     <div class="w-full mb-5" wire:ignore>
         <select data-placeholder="Selecciona a uno o más usuarios" name="select" id="select" class="select w-full"
@@ -68,7 +68,7 @@
 
     <div class="grid my-3 justify-end">
         <button type="button" wire:click="addCollaborators" id="btn_add"
-            class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center {{ $select_users == null ? 'cursor-not-allowed opacity-70' : '' }}" {{ $select_users == null ? 'disabled' : '' }}>Agregar</button>
+            class="text-black bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-none text-sm w-full sm:w-auto px-5 py-2.5 text-center {{ $select_users == null ? 'cursor-not-allowed opacity-70' : '' }}" {{ $select_users == null ? 'disabled' : '' }}>Invitar a un compañero</button>
     </div>
     <table class="min-w-max w-full table-auto">
         <thead class="">

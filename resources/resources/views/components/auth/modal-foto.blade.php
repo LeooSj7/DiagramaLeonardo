@@ -89,7 +89,7 @@
             Tipo de Usuario<span class="text-rose-500"> *</span>
         </label>
 
-        <select x-model="tipoUsuario" class="flex w-3/4  border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" name="rol">
+        <select x-model="tipoUsuario" class="flex w-3/4  border-gray-300 focus:border-gray-600 focus:ring-gray-600  shadow-sm" name="rol">
             <option class="hover:bg-indigo-400" value=""></option>
             <option class="hover:bg-indigo-400" value="2">Organizador</option>
             <option class="hover:bg-indigo-400" value="3">Cliente</option>

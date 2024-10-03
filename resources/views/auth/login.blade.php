@@ -1,54 +1,42 @@
-
 <x-authentication-layout>
-    <h1 class="text-3xl text-slate-800 font-bold mb-6">{{ __('Bienvenido de nuevo!') }}✨</h1>
-    @if (session('status'))
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ session('status') }}
-        </div>
-    @endif   
-    <!-- Form -->
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <div class="space-y-4">
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" type="email" name="email" :value="old('email')" required autofocus />                
-            </div>
-            <div>
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" type="password" name="password" required autocomplete="current-password" />                
-            </div>
-        </div>
-        <div class="flex items-center justify-between mt-6">
-            @if (Route::has('password.request'))
-                <div class="mr-1">
-                    <a class="text-sm underline hover:no-underline" href="{{ route('password.request') }}">
-                        {{ __('¿Olvidaste tu contraseña?') }}
-                    </a>
-                </div>
-            @endif            
-        </div>
+    <div class="flex items-center justify-center min-h-screen">
+        <!-- Contenedor del formulario con el cuadro plomo oscuro -->
+        <div class="bg-gray-700 p-8  shadow-lg w-full max-w-md">
+            <h1 class="text-3xl text-white  mb-6 text-center">{{ __('Iniciar Sesion') }}</h1>
 
-        <x-button class="m-3">
-            {{ __('Ingresar') }}
-        </x-button>            
-    </form>
-    <x-validation-errors class="mt-4" />   
-    <!-- Footer -->
-    <div class="pt-5 mt-6 border-t border-slate-200">
-        <div class="text-sm">
-            {{ __('¿No tienes una cuenta?') }} <a class="font-medium text-indigo-500 hover:text-indigo-600" href="{{ route('register') }}">{{ __('Registrate') }}</a>
-        </div>
-        <!-- Warning -->
-        <div class="mt-5">
-            {{-- <div class="bg-amber-100 text-amber-600 px-3 py-2 rounded">
-                <svg class="inline w-3 h-3 shrink-0 fill-current" viewBox="0 0 12 12">
-                    <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
-                </svg>
-                <span class="text-sm">
-                    To support you during the pandemic super pro features are free until March 31st.
-                </span>
-            </div> --}}
+            @if (session('status'))
+                <div class="mb-4 font-medium text-sm text-green-600">
+                    {{ session('status') }}
+                </div>
+            @endif   
+
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <x-label for="email" value="{{ __('Correo Electrónico') }}" class="text-white"/>
+                        <x-input id="email" type="email" name="email" :value="old('email')" required autofocus />                
+                    </div>
+                    <div>
+                        <x-label for="password" value="{{ __('Contraseña') }}" class="text-white"/>
+                        <x-input id="password" type="password" name="password" required autocomplete="current-password" />                
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mt-6">
+                    @if (Route::has('password.request'))
+                        <!-- Aquí podrías agregar un link para recuperación de contraseña si lo deseas -->
+                    @endif            
+                </div>
+
+                <!-- Botón de inicio de sesión -->
+                <x-button class="m-3 w-full bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-none">
+                    {{ __('Iniciar') }}
+                </x-button>
+            </form>
+
+            <x-validation-errors class="mt-4" />   
         </div>
     </div>
 </x-authentication-layout>

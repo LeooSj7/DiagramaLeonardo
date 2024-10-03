@@ -64,24 +64,7 @@
         </ul>
 
 
-        <div class="m-4 sm:mb-0">
-            <label class="mr4" for="">
-                Mostrar
-            </label>
-            <select class="form-select" wire:model="count">
-
-                <option value="4">4</option>
-                <option value="8">8</option>
-                <option value="16">16</option>
-                <option value="32">32</option>
-                <option value="64">64</option>
-
-            </select>
-            <label class="ml4" for="">
-                Items
-            </label>
-
-        </div>
+ 
     </div>
 
     <!-- show event -->

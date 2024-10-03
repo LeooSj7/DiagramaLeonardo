@@ -21,13 +21,13 @@
     <script type="module">
         import { io } from "socket.io-client";
 
-         /* const socket = io("http://127.0.0.1:3000/", {
+         const socket = io("http://127.0.0.1:3001/", {
              transports: ["websocket"]
-         }); */
+         });
 
-        const socket = io("https://soketio-diagramador-production.up.railway.app/", {
+        /* const socket = io("https://soketio-diagramador-production.up.railway.app/", {
             transports: ["websocket"]
-        });
+        }); */
 
         // const socket = io("https://diagram-socket.herokuapp.com/", {
         //     transports: ["websocket"]
@@ -162,35 +162,22 @@
 <x-app-layout>
 
     <div id="app" class="flex">
-        <div class="canvas relative flex-1 bg-radial-gradient">
+        <div class="canvas relative flex-1 bg-radial-gradient rounded-none">
           <div class="  relative top-0 left-0 pt-2 pr-3">
-            <button id="btn-generar-vistas" class=" bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Generar Vistas</button>
-            <button id="btn-exportar" data-tipoGestorDB="" class="bg-indigo-500 hover:indigo-blue-700 text-white font-bold py-2 px-4 rounded">Generar Script</button>
-            <select id="databaseSelect">
-                <option value="postgresql">PostgreSQL</option>
-                <option value="sqlserver">SQL Server</option>
+            
+            <button id="btn-exportar" data-tipoGestorDB="" class="bg-gray-600 hover:bg-gray-600 text-black  py-2 px-4 rounded-none">Descargar codigo SQL</button>
+            <select id="databaseSelect" class="block w-1/3 bg-white border border-gray-300 text-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-700 sm:text-sm">
+                <option value="postgresql">PGSQL</option>
+                <option value="sqlserver">SQLServer</option>
                 <option value="mysql">MySQL</option>
-              </select>
-            <button id="btn-guardar" class="bg-indigo-500 hover:indigo-blue-700 text-white font-bold py-2 px-4 rounded">Guardar Diagrama</button>
+            </select>
+            
+            <button id="btn-guardar" class="bg-gray-600 hover:bg-gray-700 text-black  py-2 px-4 rounded-none">Aceptar cambios</button>
             @livewire('diagrama.diagram-mostrar-script');
         </div>
           <!-- Contenido del lienzo -->
         </div>
-        <div class="collaborators-container overflow-y-auto flex-1 bg-gray-200">
-          <div class="flex flex-col h-full">
-            <div class="flex items-center bg-gray-300 py-2 px-3">
-                <i class="fa-solid fa-user text-lg mr-3 text-indigo-600"></i>
-                <h1 class="text-black text-lg">Colaboradores </h1>
-                <audio src="{{ asset('iphone-notificacion.mp3') }}" id="audio" hidden></audio>
-                    <button id="btnAudio" hidden>Button</button>
-            </div>
-            <div class="flex-1 bg-gray-200">
-              <h1 class="font-sans p-2"><i class="fa-solid fa-circle text-green-500 mx-2"></i>Conectados</h1>
-              <div class="mt-3" id="collaborators">
-                <!-- Contenido de los colaboradores -->
-              </div>
-            </div>
-          </div>
+        
         </div>
     </div>
 

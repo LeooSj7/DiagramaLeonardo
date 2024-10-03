@@ -12,17 +12,15 @@
   */
 }
 #app .canvas {
- /*  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: absolute;*/
-  background-image: radial-gradient(#000 1px, transparent 2px);
-  background-size: 20px 20px;
+  background-color: #F3F7F6; /* Color de fondo base */
+  background-image: 
+      linear-gradient(#000 1px, transparent 1px), /* Líneas horizontales más delgadas */
+      linear-gradient(to right, #000 1px, transparent 1px); /* Líneas verticales más delgadas */
+  background-size: 20px 20px; /* Tamaño de la cuadrícula */
   width: 80%; /* Ajusta el ancho según tus necesidades */
   height: 89%; /* Ajusta la altura según tus necesidades */
-  
 }
+
 #app .canvas .joint-element {
   filter: drop-shadow(0.1rem 0.1rem 0.15rem rgba(0, 0, 0, 0.2));
 }
@@ -36,6 +34,7 @@
   fill: #A0A0A0;
   stroke-width: 1;
 }
+
 #app .joint-dialog.joint-theme-default .body {
   padding: 0;
   max-height: 500px;

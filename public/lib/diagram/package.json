@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clientio/rappid": "file:../../../build/package/rappid.tgz",
+    "joint-database": "file:",
     "jointjs": "^3.7.2",
     "jszip": "^3.10.1"
   },

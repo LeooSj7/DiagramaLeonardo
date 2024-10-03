@@ -41,12 +41,9 @@ html {
 }
 
 body {
-     color: #666666;
-     font-size: 14px;
-     font-family: 'Lato', sans-serif;
-     line-height: 1.80857;
-     font-weight: normal;
-}
+     font-family: 'Roboto', sans-serif;
+ }
+ 
 
 a {
      color: #1f1f1f;
@@ -316,7 +313,7 @@ button {
 /*--------------------------------------------------------------------- layout new css ---------------------------------------------------------------------*/
 
 .head_top {
-     background: url(../images/banner.png);
+     background: url(../images/ba2.jpg);
      background-size: 100% 100%;
      background-repeat: no-repeat;
      background-position: center;
@@ -341,31 +338,24 @@ button {
 }
 
 .text-bg {
-     text-align: left;
-     max-width: 561px;
-     width: 100%;
-     float: right;
-     padding-right: 141px;
-}
-
-.text-bg h1 {
-     color: #fff;
-     font-size: 48px;
-     line-height: 65px;
-     font-weight: bold;
-}
-
-.text-bg p {
-     color: #fff;
-     font-size: 17px;
-     line-height: 28px;
-     padding: 40px 0;
-}
+     font-family: Arial, sans-serif; /* Cambia la fuente a Arial */
+     color: black; /* Cambia el color del texto a negro */
+ }
+ 
+ .text-bg h1 {
+     font-size: 4vw; /* El tamaño del texto se ajusta al tamaño del viewport */
+     color: black;
+ }
+ 
+ .text-bg p {
+     color: black; /* Asegura que el párrafo (p) también tenga color negro */
+ }
+ 
 
 .text-bg a {
      font-size: 17px;
      background-color: #fff;
-     color: #600AFF;
+     color: #b1b1b1;
      padding: 13px 0px;
      width: 100%;
      max-width: 190px;
@@ -393,7 +383,12 @@ button {
 .text-img figure img {
      width: 100%;
 }
-
+.text-img img {
+     width: 100%; /* Asegura que la imagen ocupe el espacio disponible */
+     max-width: 500px; /* Limita el tamaño máximo de la imagen */
+     height: auto; /* Mantiene la proporción de la imagen */
+ }
+ 
 .titlepage {
      text-align: center;
      padding-bottom: 60px;
@@ -419,12 +414,13 @@ button {
 
 .business {
      padding-top: 90px;
+     font-family: 'Roboto', sans-serif; /* Cambia el tipo de letra para toda la sección .business */
 }
 
 .business .titlepage span {
-     color: #600AFF;
+     color: #0e0d0d;
      font-size: 30px;
-     font-family: 'Baloo Chettan', cursive;
+     font-family: 'Roboto', sans-serif; /* Cambia el tipo de letra para el span */
      text-transform: uppercase;
      line-height: 37px;
      padding-bottom: 10px;
@@ -432,20 +428,9 @@ button {
 }
 
 .business .titlepage h2 {
-     color: #272f43;
+     color: #080808;
      font-weight: normal;
-}
-
-.business .business_box {
-     text-align: center;
-}
-
-.business .business_box figure {
-     margin: 0;
-}
-
-.business .business_box figure img {
-     width: 100%;
+     font-family: 'Roboto', sans-serif; /* Cambia el tipo de letra para los encabezados */
 }
 
 .business .business_box p {
@@ -453,15 +438,7 @@ button {
      font-size: 17px;
      line-height: 28px;
      padding: 35px 0px;
-}
-
-.business .business_box .read_more {
-     background: #252525;
-     color: #fff;
-}
-
-.business .business_box .read_more:hover {
-     background: #600AFF;
+     font-family: 'Roboto', sans-serif; /* Cambia el tipo de letra para los párrafos */
 }
 
 
@@ -483,12 +460,11 @@ button {
      width: 320px;
      height: 542px;
      right: 0;
-     background: url(../images/midil.png);
      top: -210px;
 }
 
 .projects .titlepage span {
-     color: #600AFF;
+     color: #8e8d8f;
      font-size: 30px;
      font-family: 'Baloo Chettan', cursive;
      text-transform: uppercase;
@@ -527,7 +503,7 @@ button {
 }
 
 .projects .projects_box .read_more:hover {
-     background: #600AFF;
+     background: #a7a5ac;
 }
 
 .navbar-nav .nav-item .read_more {
@@ -536,7 +512,7 @@ button {
 }
 
 .navbar-nav .nav-item .read_more:hover {
-     background: #3D5AFE;
+     background: #a7a8af;
 }
 
 
@@ -546,7 +522,7 @@ button {
 /** Testimonial section **/
 
 .Testimonial {
-     background: url(../images/test.png);
+     background: url(../images/ba3.jpg);
      background-repeat: no-repeat;
      margin-top: 90px;
      padding: 90px 0px;
@@ -554,47 +530,12 @@ button {
      background-size: 100% 100%;
 }
 
-.Testimonial .titlepage h2 {
-     color: #fff;
-     margin-bottom: 0px;
-     padding-bottom: 0px;
-}
-
-.Testimonial .titlepage span {
-     color: #fff;
-}
-
-.Testimonial_box i {
-     border: #e6e1e1 solid 12px;
-     width: 150px;
-     height: 150px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     margin: 0 auto;
-     border-radius: 210px;
-     cursor: pointer;
-     background: #e6e1e1;
-}
-
-.Testimonial_box i::after {
-     position: absolute;
-     content: "";
-     width: 50px;
-     height: 50px;
-     bottom: 40px;
-     right: 63px;
-     display: inline-block;
-     border: #ddd solid 6px;
-     border-radius: 30px;
-}
-
 .Testimonial_box {
      text-align: left;
 }
 
 .Testimonial_box h4 {
-     color: #fff;
+     color: #0a0a0a;
      text-transform: uppercase;
      font-size: 20px;
      line-height: 20px;
@@ -603,13 +544,24 @@ button {
 }
 
 .Testimonial_box p {
-     color: #fff;
+     color: #050505;
      font-size: 17px;
      line-height: 28px;
      padding: 25px 0;
      padding-right: 200px;
 }
-
+/* Estilo para las imágenes dentro de los testimonios */
+.Testimonial_box img {
+     width: 150px;            /* Ancho fijo para las imágenes */
+     height: 150px;           /* Alto fijo para que tengan proporciones iguales */
+     object-fit: cover;       /* Asegura que la imagen se recorte de manera uniforme dentro de las dimensiones */
+     border-radius: 50%;      /* Redondea las esquinas, creando un efecto circular */
+     border: 2px solid #ccc;  /* Agrega un borde opcional alrededor de la imagen */
+ }
+ .Testimonial_box {
+     margin-left: 20px; /* Agrega un margen izquierdo para separar las imágenes del borde */
+ }
+  
 
 /** end Testimonial section **/
 
@@ -632,18 +584,18 @@ button {
 
 .main_form {
      padding: 50px 50px;
-     border: #008df3 solid 1px;
+     border: #f30000 solid 1px;
      border-radius: 40px;
      margin: 0px 80px;
 }
 
 .contact .main_form .form_contril {
-     border: #008df3 solid 1px;
+     border: #f30000 solid 1px;
      margin-bottom: 20px;
      width: 100%;
      height: 45px;
      background: #fff;
-     color: #008df3;
+     color: #f30000;
      font-size: 17px;
      border-top: 0;
      border-right: 0;
@@ -651,12 +603,12 @@ button {
 }
 
 .contact .main_form .textarea {
-     border: #008df3 solid 1px;
+     border: #f30000 solid 1px;
      margin-bottom: 20px;
      width: 100%;
      height: 60px;
      background: #fff;
-     color: #008df3;
+     color: #f30000;
      font-size: 17px;
      border-top: 0;
      border-right: 0;
@@ -677,14 +629,14 @@ button {
 }
 
 .contact .main_form .send_btn:hover {
-     background-color: #008df3;
+     background-color: #858788;
      transition: ease-in all 0.5s;
-     color: #fff;
+     color: #0a0a0a;
      border-radius: 26px;
 }
 
 #contact *::placeholder {
-     color: #008df3;
+     color: #818588;
      opacity: 1;
 }
 
@@ -730,7 +682,7 @@ button {
 /** footer **/
 
 .multi {
-     color: #600AFF;
+     color: #141414;
 }
 
 .footer {
@@ -786,16 +738,16 @@ ul.social_icon li a {
      width: 50px;
      height: 50px;
      display: inline-block;
-     color: #3D5AFE;
+     color: #0a0a0a;
 }
 
 ul.social_icon li a:hover {
-     background: #23262d;
+     background: #9297a1;
 }
 
 .copyright {
      padding: 20px 0px;
-     background: #3D5AFE;
+     background: #b4b4b4;
      margin-top: 50px;
      position: relative;
 }
@@ -804,14 +756,13 @@ ul.social_icon li a:hover {
      content: "";
      position: absolute;
      bottom: 61px;
-     background: url(../images/bottom.png);
      width: 290px;
      height: 292px;
      right: 0;
 }
 
 .copyright p {
-     color: #fff;
+     color: #111010;
      font-size: 18px;
      line-height: 22px;
      text-align: center;

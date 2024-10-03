@@ -379,23 +379,23 @@ var init = function init() {
           type: "color"
         },
         "attrs/headerLabel/text": {
-          label: "Name",
+          label: "Nombre de la clase",
           type: "text"
         },
         columns: {
-          label: "Columns",
+          label: "Atributo",
           type: "list",
-          addButtonLabel: "Add Column",
-          removeButtonLabel: "Remove Column",
+          addButtonLabel: "Añadir atributo",
+          removeButtonLabel: "Eliminar atributo",
           item: {
             type: "object",
             properties: {
               name: {
-                label: "Name",
+                label: "Nombre",
                 type: "text"
               },
               type: {
-                label: "Type",
+                label: "Tipo",
                 type: "select",
                 options: ["character", "varchar(50)", "text", "integer", "bigint", "smallint", "real", "date", "time", "timestamp", "boolean"]
               },
@@ -404,7 +404,7 @@ var init = function init() {
                   type: 'text'
               }, */
               key: {
-                label: "Key",
+                label: "Llave primaria",
                 type: "toggle"
               }
             }
@@ -420,14 +420,14 @@ var init = function init() {
       draggable: true,
       closeButton: false,
       width: 300,
-      title: tableName || "New Table*",
+      title: tableName || "Nueva clase",
       content: inspector.el,
       buttons: [{
-        content: "Remove",
+        content: "Eliminar",
         action: "remove",
         position: "left"
       }, {
-        content: "Close",
+        content: "Cerrar",
         action: "close"
       }]
     });
@@ -528,14 +528,14 @@ var init = function init() {
       draggable: true,
       closeButton: false,
       width: 300,
-      title: "Edit Link",
+      title: "Editar relacion",
       content: inspector.el,
       buttons: [{
-        content: "Remove",
+        content: "Eliminar",
         action: "remove",
         position: "left"
       }, {
-        content: "Close",
+        content: "Cerrar",
         action: "close"
       }]
     });

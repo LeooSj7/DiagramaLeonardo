@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-gray-600 border-b border-gray-600">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,35 +6,31 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/"> 
-                        <img src="{{asset('images/logo2.png')}}"  alt="">
-                        {{-- <x-application-mark class="block h-9 w-auto" /> --}}
+                        <img src="{{asset('images/logoLEO.png')}}" alt="" width="100" height="auto">
                     </a>
                 </div>
+                
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link class="hover:text-indigo-500" href="/">
-                        {{ __('Home') }}
+                    <x-nav-link class="hover:text-white" href="/">
+                        {{ __('Inicio') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link class="hover:text-indigo-500" href="{{ route('diagrama.misdiagramas') }}" :active="request()->routeIs('diagrama.misdiagramas')">
-                        Mis Diagramas
+                    <x-nav-link class="hover:text-white" href="{{ route('diagrama.misdiagramas') }}" :active="request()->routeIs('diagrama.misdiagramas')">
+                        Proyecto de diagramas de BD
                     </x-nav-link >
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link  class="hover:text-indigo-500" href="{{ route('diagrama.miscolaboraciones') }}" :active="request()->routeIs('diagrama.miscolaboraciones')">
-                        Mis Colaboraciones
+                    <x-nav-link  class="hover:text-white" href="{{ route('diagrama.miscolaboraciones') }}" :active="request()->routeIs('diagrama.miscolaboraciones')">
+                        Sesiones Creadas con Colaboraciones
                     </x-nav-link >
                 </div>
 
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link  class="hover:text-indigo-500" href="{{ route('diagrama.prueba') }}" :active="request()->routeIs('diagrma.prueba')">
-                        Diagrama1
-                    </x-nav-link >
-                </div> --}}
+          
 
             </div>
 

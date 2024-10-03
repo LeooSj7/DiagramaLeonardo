@@ -1,5 +1,5 @@
 <x-authentication-layout>
-    <h1 class="text-3xl text-slate-800 font-bold mb-6">{{ __('Crea tu cuenta') }} ✨</h1>
+    <h1 class="text-3xl text-slate-800 font-bold mb-6">{{ __('tu cuenta') }} ✨</h1>
     <!-- Form -->
     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
